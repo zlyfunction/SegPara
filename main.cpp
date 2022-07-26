@@ -19,10 +19,10 @@ using namespace std;
 
 MatrixXd V; // matrix storing vertex coordinates of the input mesh (n rows, 3 columns)
 MatrixXi F; // incidence relations between faces and edges (f columns)
-MatrixXi R; // matrix indicating the partition of each vertex
+MatrixXi R; // matrix indicating the partition of each element
 MatrixXd newV; // matrix storing vertex coordinates of the input mesh (n rows, 3 columns)
 MatrixXi newF; // incidence relations between faces and edges (f columns)
-MatrixXi newR; // matrix indicating the partition of each vertex
+MatrixXi newR; // matrix indicating the partition of each element
 MatrixXd C; // the coloring
 MatrixXd Proxies;
 MatrixXi Ad; // face adjacency
@@ -253,10 +253,11 @@ bool key_down(igl::opengl::glfw::Viewer &viewer, unsigned char key, int modifier
       // error = global_distortion_error(R,Proxies,V,F,norme);
       global_error_points.push_back(make_pair(iterations,error));
       errors.push_back(error);
-
-      igl::jet(R,true,C);
-      viewer.data(0).set_colors(C);
+      
     }
+    std::cout << "R max:" << std::endl << R.maxCoeff() << std::endl;
+    igl::jet(R,true,C);
+    viewer.data(0).set_colors(C);
     cout << "    Done" <<endl;
     
   }
@@ -363,11 +364,13 @@ int main(int argc, char *argv[])
   viewer.launch(); // run the editor
 
 
-  cout<<"\n_______Erreurs par itération_______\n"<<endl;
-  pair<int,double> item;
-  for (int i=0 ; i<global_error_points.size() ; i++){
-    item = global_error_points[i];
-    cout<<item.second<<endl;
-  }
+  
+
+  // cout<<"\n_______Erreurs par itération_______\n"<<endl;
+  // pair<int,double> item;
+  // for (int i=0 ; i<global_error_points.size() ; i++){
+  //   item = global_error_points[i];
+  //   cout<<item.second<<endl;
+  // }
 }
 
